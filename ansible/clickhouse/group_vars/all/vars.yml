@@ -1,0 +1,24 @@
+clickhouse_clusters:
+  - cluster01
+
+clickhouse_shards:
+  - cluster_name: cluster01
+    shard_id: "01"
+
+clickhouse_servers:
+  - host: clickhouse1
+    cluster_name: cluster01
+    shard_id: "01"
+    replica_id: "01"
+  - host: clickhouse2
+    cluster_name: cluster01
+    shard_id: "01"
+    replica_id: "02"
+
+clickhouse_keeper_servers:
+  - host: keeper1
+    server_id: 1
+  - host: keeper2
+    server_id: 2
+  - host: keeper3
+    server_id: 3

@@ -1,0 +1,39 @@
+---
+- name: Create /etc/clickhouse-server/config.d/ directory
+  file:
+    name: /etc/clickhouse-server/config.d
+    state: directory
+    owner: clickhouse
+    group: clickhouse
+    mode: "0755"
+
+- name: Set shard_id, replica_id, and cluster_name for ClickHouse configs
+  set_fact:
+    clickhouse_shard_id: '{{ (clickhouse_servers|selectattr("host", "==", inventory_hostname)|first).shard_id }}'
+    clickhouse_replica_id: '{{ (clickhouse_servers|selectattr("host", "==", inventory_hostname)|first).replica_id }}'
+    clickhouse_cluster_name: '{{ (clickhouse_servers|selectattr("host", "==", inventory_hostname)|first).cluster_name }}'
+
+- name: Create /backups directory
+  file:
+    name: /backups
+    state: directory
+    owner: clickhouse
+    group: clickhouse
+    mode: "0755"
+
+- name: Create files in /etc/clickhouse-server/config.d/ directory
+  template:
+    src: "{{ item }}.j2"
+    dest: "/etc/clickhouse-server/config.d/{{ item }}"
+    owner: clickhouse
+    group: clickhouse
+    mode: "0644"
+  with_items:
+    - backup_disk.xml
+    - network-and-logging.xml
+    - macros.xml
+    - prometheus.xml
+    - remote-servers.xml
+    - timezone.xml
+    - use-keeper.xml
+  notify: Restart clickhouse-server

@@ -1,0 +1,11 @@
+---
+- name: Set up clickhouse keeper
+  hosts: keeper
+  remote_user: ubuntu
+  become: true
+  roles:
+    - hosts
+    - clickhouse_apt_repo
+    - clickhouse_keeper
+    - clickhouse_keeper_config
+    - prometheus.prometheus.node_exporter

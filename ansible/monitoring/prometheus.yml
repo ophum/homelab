@@ -1,0 +1,10 @@
+---
+- name: Set up Prometheus
+  hosts: prometheus
+  remote_user: ubuntu
+  become: true
+  vars:
+    prometheus_config_flags_extra:
+      web.enable-remote-write-receiver: null
+  roles:
+    - prometheus.prometheus.prometheus

@@ -1,0 +1,9 @@
+---
+- name: Set up OpenTelemetry Collector
+  hosts: otelcol
+  remote_user: ubuntu
+  become: true
+  roles:
+    - ../clickhouse/roles/hosts
+    - otelcol
+    - otelcol_config

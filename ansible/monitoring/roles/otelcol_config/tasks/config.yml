@@ -1,0 +1,9 @@
+---
+- name: Set config.yaml
+  ansible.builtin.template:
+    src: config.yaml.j2
+    dest: /etc/otelcol-contrib/config.yaml
+    mode: "0755"
+    owner: root
+    group: root
+  notify: Restart otelcol-contrib

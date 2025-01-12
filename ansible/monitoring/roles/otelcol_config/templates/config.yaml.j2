@@ -1,0 +1,52 @@
+receivers:
+  otlp:
+    protocols:
+      grpc:
+        endpoint: 0.0.0.0:4317
+  syslog:
+    tcp:
+      listen_address: 0.0.0.0:54526
+    protocol: rfc3164
+    location: Asia/Tokyo
+
+  prometheus:
+    config:
+      scrape_configs:
+        - job_name: node_exporter
+          scrape_interval: 5s
+          static_configs:
+            - targets: ['10.1.0.10:9100', '10.1.0.11:9100']
+              labels:
+                service: clickhouse-server
+            - targets: ['10.1.0.20:9100', '10.1.0.21:9100', '10.1.0.22:9100']
+              labels:
+               service: clickhouse-keeper
+           
+
+processors:
+  batch:
+    timeout: 5s
+    send_batch_size: 5000
+
+exporters:
+  prometheusremotewrite:
+    endpoint: http://prometheus:9090/api/v1/write
+    tls:
+      insecure: true
+  clickhouse:
+    endpoint: tcp://clickhouse1:9000,clickhouse2:9000?dial_timeout=10s
+    ttl: 744h 
+    cluster_name: cluster01
+    table_engine:
+      name: ReplicatedMergeTree
+
+service:
+  pipelines:
+    metrics:
+      receivers: [otlp, prometheus]
+      processors: [batch]
+      exporters: [prometheusremotewrite, clickhouse]
+    logs:
+      receivers: [otlp, syslog]
+      processors: [batch]
+      exporters: [clickhouse]

@@ -1,0 +1,9 @@
+---
+- name: /etc/hosts
+  ansible.builtin.blockinfile:
+    path: /etc/hosts
+    marker: "# {mark} Ansible"
+    block: |
+      {% for v in hostvars %}
+      {{ hostvars[v]["ansible_host"] }} {{ v }}
+      {% endfor %}

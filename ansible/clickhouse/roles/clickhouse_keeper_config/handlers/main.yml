@@ -1,0 +1,5 @@
+---
+- name: Restart clickhouse-keeper
+  ansible.builtin.systemd_service:
+    name: clickhouse-keeper.service
+    state: restarted
