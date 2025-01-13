@@ -8,6 +8,10 @@ receivers:
       listen_address: 0.0.0.0:54526
     protocol: rfc3164
     location: Asia/Tokyo
+    operators:
+      - type: syslog_parser
+        protocol: rfc3164
+        location: Asia/Tokyo
 
   prometheus:
     config:
@@ -15,12 +19,18 @@ receivers:
         - job_name: node_exporter
           scrape_interval: 5s
           static_configs:
-            - targets: ['10.1.0.10:9100', '10.1.0.11:9100']
+            - targets: ['otelcol1:9100']
+              labels:
+                service: otelcol
+            - targets: ['clickhouse1:9100', 'clickhouse2:9100']
               labels:
                 service: clickhouse-server
-            - targets: ['10.1.0.20:9100', '10.1.0.21:9100', '10.1.0.22:9100']
+            - targets: ['keeper1:9100', 'keeper2:9100', 'keeper3:9100']
               labels:
-               service: clickhouse-keeper
+                service: clickhouse-keeper
+            - targets: ['prometheus:9100']
+              labels:
+                service: prometheus
            
 
 processors:

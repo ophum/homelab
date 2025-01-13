@@ -7,3 +7,5 @@
     - ../clickhouse/roles/hosts
     - otelcol
     - otelcol_config
+    - prometheus.prometheus.node_exporter
+    - rsyslog_config

@@ -11,3 +11,8 @@ grafana ansible_host=10.1.0.41
 [clickhouse]
 clickhouse1 ansible_host=10.1.0.10
 clickhouse2 ansible_host=10.1.0.11
+
+[keeper]
+keeper1 ansible_host=10.1.0.20
+keeper2 ansible_host=10.1.0.21
+keeper3 ansible_host=10.1.0.22

@@ -1,0 +1,10 @@
+---
+- name: Set /etc/rsyslog.d/60-fwd-otelcol.conf
+  ansible.builtin.copy:
+    src: 60-fwd-otelcol.conf
+    dest: /etc/rsyslog.d/60-fwd-otelcol.conf
+
+- name: Restart rsyslog
+  ansible.builtin.systemd_service:
+    name: rsyslog.service
+    state: restarted

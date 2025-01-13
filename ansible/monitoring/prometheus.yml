@@ -7,4 +7,7 @@
     prometheus_config_flags_extra:
       web.enable-remote-write-receiver: null
   roles:
+    - ../clickhouse/roles/hosts
     - prometheus.prometheus.prometheus
+    - prometheus.prometheus.node_exporter
+    - rsyslog_config
