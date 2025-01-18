@@ -31,6 +31,9 @@ receivers:
             - targets: ['prometheus:9100']
               labels:
                 service: prometheus
+            - targets: ['minecraft:9100']
+              labels:
+                service: minecraft
            
 
 processors:
